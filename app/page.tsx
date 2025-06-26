@@ -429,7 +429,7 @@ export default function Home() {
                 new places, book tickets, and create unforgettable memories.
               </p>
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Whether you're looking for an intimate cocktail bar, a
+                Whether you&apos;re looking for an intimate cocktail bar, a
                 high-energy dance club, or an exclusive VIP experience, Insyd
                 has got you covered. Join thousands of users who are already
                 experiencing nightlife like never before.
