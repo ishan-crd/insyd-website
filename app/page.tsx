@@ -14,7 +14,7 @@ export default function Home() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [waitlistCount, setWaitlistCount] = useState(374);
+  const [waitlistCount, setWaitlistCount] = useState(347);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -367,7 +367,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Connection Status Indicator
+      {/* Connection Status Indicator */}
       <div className="fixed top-4 right-4 z-30">
         {supabaseUrl.includes("your-project") ? (
           <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-1 rounded-lg text-xs">
@@ -378,7 +378,7 @@ export default function Home() {
             ✅ Connected
           </div>
         )}
-      </div> */}
+      </div>
 
       {/* Hero Section */}
       <div className="relative w-full min-h-screen bg-[url('/images/bgimage.png')] bg-cover bg-center text-white overflow-hidden">
