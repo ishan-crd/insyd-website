@@ -40,7 +40,7 @@ export default function Home() {
       }
 
       return data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error adding to waitlist:", error);
       throw error;
     }
@@ -59,7 +59,7 @@ export default function Home() {
       }
 
       return count || 374;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error getting waitlist count:", error);
       return 374; // Fallback number
     }
@@ -79,7 +79,7 @@ export default function Home() {
       }
 
       return data || [];
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error exporting waitlist data:", error);
       throw error;
     }
@@ -152,8 +152,12 @@ export default function Home() {
         setIsPopupOpen(false);
         setSubmitSuccess(false);
       }, 2000);
-    } catch (error: any) {
-      setError(error.message || "Sorry, there was an error. Please try again.");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Sorry, there was an error. Please try again.";
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -190,8 +194,10 @@ export default function Home() {
       }.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
-    } catch (error: any) {
-      alert("Error exporting data: " + error.message);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      alert("Error exporting data: " + errorMessage);
     }
   };
 
