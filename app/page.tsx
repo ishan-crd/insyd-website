@@ -367,7 +367,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Connection Status Indicator */}
+      {/* Connection Status Indicator
       <div className="fixed top-4 right-4 z-30">
         {supabaseUrl.includes("your-project") ? (
           <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-1 rounded-lg text-xs">
@@ -378,7 +378,7 @@ export default function Home() {
             ✅ Connected
           </div>
         )}
-      </div>
+      </div> */}
 
       {/* Hero Section */}
       <div className="relative w-full min-h-screen bg-[url('/images/bgimage.png')] bg-cover bg-center text-white overflow-hidden">
