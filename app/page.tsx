@@ -25,7 +25,7 @@ export default function Home() {
   const ADMIN_PASSWORD = "insyd2025admin";
 
   // Add user to waitlist
-  const addToWaitlist = async (email, phone) => {
+  const addToWaitlist = async (email: string, phone: string) => {
     try {
       const { data, error } = await supabase.from("waitlist").insert([
         {
@@ -101,7 +101,7 @@ export default function Home() {
 
   // Admin access via keyboard shortcut
   useEffect(() => {
-    const handleKeyPress = (e) => {
+    const handleKeyPress = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.shiftKey && e.key === "A") {
         setShowAdminLogin(true);
       }
@@ -110,7 +110,7 @@ export default function Home() {
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
 
-  const handleAdminLogin = (e) => {
+  const handleAdminLogin = (e: React.MouseEvent) => {
     e.preventDefault();
     if (adminPassword === ADMIN_PASSWORD) {
       setIsAdmin(true);
@@ -121,7 +121,7 @@ export default function Home() {
     }
   };
 
-  const handleWaitlistSubmit = async (e) => {
+  const handleWaitlistSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (!email && !phone) {
       setError("Please enter at least an email address");
