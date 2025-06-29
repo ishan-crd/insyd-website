@@ -40,7 +40,7 @@ export default function Home() {
       }
 
       return data;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error adding to waitlist:", error);
       throw error;
     }
@@ -59,7 +59,7 @@ export default function Home() {
       }
 
       return count || 374;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error getting waitlist count:", error);
       return 374; // Fallback number
     }
@@ -79,7 +79,7 @@ export default function Home() {
       }
 
       return data || [];
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error exporting waitlist data:", error);
       throw error;
     }
@@ -110,7 +110,7 @@ export default function Home() {
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
 
-  const handleAdminLogin = (e: React.MouseEvent) => {
+  const handleAdminLogin = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.preventDefault();
     if (adminPassword === ADMIN_PASSWORD) {
       setIsAdmin(true);
@@ -152,7 +152,7 @@ export default function Home() {
         setIsPopupOpen(false);
         setSubmitSuccess(false);
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       setError(error.message || "Sorry, there was an error. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -190,7 +190,7 @@ export default function Home() {
       }.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
-    } catch (error) {
+    } catch (error: any) {
       alert("Error exporting data: " + error.message);
     }
   };
