@@ -286,10 +286,10 @@ export default function Home() {
                   </svg>
                 </div>
                 <h4 className="text-xl font-bold text-gray-900 mb-2">
-                  You're In! 🎉
+                  You&apos;re In! 🎉
                 </h4>
                 <p className="text-gray-600">
-                  We'll notify you as soon as we launch.
+                  We&apos;ll notify you as soon as we launch.
                 </p>
               </div>
             ) : (
@@ -362,7 +362,7 @@ export default function Home() {
       )}
 
       {/* Connection Status Indicator */}
-      {/* <div className="fixed top-4 right-4 z-30">
+      <div className="fixed top-4 right-4 z-30">
         {supabaseUrl.includes("your-project") ? (
           <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-1 rounded-lg text-xs">
             ⚠️ Configure Supabase
@@ -372,7 +372,7 @@ export default function Home() {
             ✅ Connected
           </div>
         )}
-      </div> */}
+      </div>
 
       {/* Hero Section */}
       <div className="relative w-full min-h-screen bg-[url('/images/bgimage.png')] bg-cover bg-center text-white overflow-hidden">
@@ -742,7 +742,7 @@ export default function Home() {
                 new places, book tickets, and create unforgettable memories.
               </p>
               <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed">
-                Whether you're looking for an intimate cocktail bar, a
+                Whether you&apos;re looking for an intimate cocktail bar, a
                 high-energy dance club, or an exclusive VIP experience, Insyd
                 has got you covered. Join thousands of users who are already
                 experiencing nightlife like never before.
