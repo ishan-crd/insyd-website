@@ -367,19 +367,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Connection Status Indicator */}
-      <div className="fixed top-4 right-4 z-30">
-        {supabaseUrl.includes("your-project") ? (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-1 rounded-lg text-xs">
-            ⚠️ Configure Supabase
-          </div>
-        ) : (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-3 py-1 rounded-lg text-xs">
-            ✅ Connected
-          </div>
-        )}
-      </div>
-
       {/* Hero Section */}
       <div className="relative w-full min-h-screen bg-[url('/images/bgimage.png')] bg-cover bg-center text-white overflow-hidden">
         <div className="flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
