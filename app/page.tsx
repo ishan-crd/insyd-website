@@ -291,12 +291,12 @@ export default function Home() {
           border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
-        .gold-accent {
+        .pink-accent {
           background: linear-gradient(
             135deg,
-            #ffd700 0%,
-            #ffa500 50%,
-            #ff8c00 100%
+            #ec4899 0%,
+            #be185d 50%,
+            #9d174d 100%
           );
         }
 
@@ -353,7 +353,7 @@ export default function Home() {
           border: 2px solid transparent;
           background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9))
               padding-box,
-            linear-gradient(135deg, #ec4899, #ffd700, #ec4899) border-box;
+            linear-gradient(135deg, #ec4899, #be185d, #ec4899) border-box;
         }
 
         .vip-hover {
@@ -373,7 +373,7 @@ export default function Home() {
             ),
             radial-gradient(
               circle at 75% 75%,
-              rgba(255, 215, 0, 0.05) 0%,
+              rgba(236, 72, 153, 0.05) 0%,
               transparent 50%
             ),
             linear-gradient(
@@ -402,7 +402,7 @@ export default function Home() {
           left: -2px;
           right: -2px;
           bottom: -2px;
-          background: linear-gradient(45deg, #ec4899, #ffd700, #ec4899);
+          background: linear-gradient(45deg, #ec4899, #be185d, #ec4899);
           border-radius: inherit;
           z-index: -1;
           opacity: 0.7;
@@ -466,7 +466,7 @@ export default function Home() {
         <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
           <div className="premium-glass rounded-3xl p-10 max-w-lg w-full mx-4 exclusive-border ultra-shadow">
             <div className="text-center mb-10">
-              <div className="w-24 h-24 bg-gradient-to-br from-[#EC4899] to-[#FFD700] rounded-full flex items-center justify-center mx-auto mb-8 pink-glow status-indicator">
+              <div className="w-24 h-24 bg-gradient-to-br from-[#EC4899] to-[#be185d] rounded-full flex items-center justify-center mx-auto mb-8 pink-glow status-indicator">
                 <div className="w-8 h-8 diamond-shape bg-white"></div>
               </div>
               <h3 className="font-neue-plak text-4xl text-white mb-4 ultra-exclusive-text">
@@ -554,7 +554,7 @@ export default function Home() {
                   <button
                     onClick={handleWaitlistSubmit}
                     disabled={isSubmitting || !email}
-                    className="flex-1 px-8 py-5 bg-gradient-to-r from-[#EC4899] to-[#FFD700] text-black rounded-2xl hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed font-montserrat-semibold transition-all ultra-shadow"
+                    className="flex-1 px-8 py-5 bg-gradient-to-r from-[#EC4899] to-[#be185d] text-white rounded-2xl hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed font-montserrat-semibold transition-all ultra-shadow"
                   >
                     {isSubmitting ? "Processing..." : "Request Invitation"}
                   </button>
@@ -591,7 +591,7 @@ export default function Home() {
         {/* Floating Elements */}
         <div className="absolute top-20 left-10 w-4 h-4 bg-[#EC4899] rounded-full opacity-60 floating-slow"></div>
         <div
-          className="absolute top-40 right-20 w-6 h-6 bg-[#FFD700] rounded-full opacity-40 floating-slow"
+          className="absolute top-40 right-20 w-6 h-6 bg-[#be185d] rounded-full opacity-40 floating-slow"
           style={{ animationDelay: "2s" }}
         ></div>
         <div
@@ -642,9 +642,9 @@ export default function Home() {
 
         {/* Hero Content */}
         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center min-h-[calc(100vh-200px)] px-8 lg:px-16 gap-16 lg:gap-24">
-          <div className="w-full max-w-[380px] lg:max-w-[450px] order-2 lg:order-1 floating-slow">
+          <div className="hidden lg:block w-full max-w-[380px] lg:max-w-[450px] order-2 lg:order-1 floating-slow">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#EC4899]/20 to-[#FFD700]/20 rounded-3xl blur-3xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-[#EC4899]/20 to-[#be185d]/20 rounded-3xl blur-3xl"></div>
               <Image
                 src="/images/insyd-preview.png"
                 alt="Exclusive Preview"
@@ -657,7 +657,7 @@ export default function Home() {
 
           <div className="text-center lg:text-left max-w-3xl order-1 lg:order-2">
             <div className="mb-8">
-              <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/20 to-[#FFD700]/20 rounded-full px-6 py-3 mb-8 border border-white/10">
+              <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/20 to-[#be185d]/20 rounded-full px-6 py-3 mb-8 border border-white/10">
                 <div className="diamond-shape w-3 h-3 bg-[#EC4899]"></div>
                 <span className="font-montserrat-semibold text-white/80 text-sm tracking-widest">
                   ULTRA EXCLUSIVE PREVIEW
@@ -688,8 +688,8 @@ export default function Home() {
                 </div>
                 <div className="w-px h-12 bg-white/20"></div>
                 <div className="text-center">
-                  <div className="font-neue-plak text-3xl text-[#FFD700]">
-                    $∞
+                  <div className="font-neue-plak text-3xl text-[#be185d]">
+                    ∞
                   </div>
                   <div className="font-montserrat-light text-white/50 text-xs tracking-widest">
                     PRICELESS ACCESS
@@ -699,10 +699,10 @@ export default function Home() {
 
               <button
                 onClick={() => setIsPopupOpen(true)}
-                className="group relative inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-[#EC4899] to-[#FFD700] text-black rounded-full font-montserrat-semibold text-lg transition-all duration-500 hover:scale-105 ultra-shadow vip-hover"
+                className="group relative inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-[#EC4899] to-[#be185d] text-white rounded-full font-montserrat-semibold text-lg transition-all duration-500 hover:scale-105 ultra-shadow vip-hover"
               >
                 <span className="relative z-10">Request Exclusive Access</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] to-[#EC4899] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#be185d] to-[#EC4899] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </button>
 
               <p className="font-montserrat-light text-white/40 text-sm max-w-md leading-relaxed">
@@ -718,7 +718,7 @@ export default function Home() {
       <section id="experience" className="py-32 bg-black luxury-grid">
         <div className="max-w-8xl mx-auto px-8 lg:px-16">
           <div className="text-center mb-24">
-            <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/10 to-[#FFD700]/10 rounded-full px-8 py-4 mb-8 border border-white/5">
+            <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/10 to-[#be185d]/10 rounded-full px-8 py-4 mb-8 border border-white/5">
               <div className="diamond-shape w-4 h-4 bg-[#EC4899]"></div>
               <span className="font-montserrat-semibold text-white/60 text-sm tracking-widest">
                 CURATED EXPERIENCES
@@ -740,21 +740,21 @@ export default function Home() {
                 title: "DIAMOND TIER VENUES",
                 description:
                   "Access to the world's most exclusive establishments, handpicked by our elite curation team",
-                accent: "from-[#EC4899] to-purple-600",
+                accent: "from-[#EC4899] to-[#be185d]",
               },
               {
                 icon: "🥂",
                 title: "VIP CONCIERGE",
                 description:
                   "Personal concierge service ensuring every aspect of your evening exceeds expectations",
-                accent: "from-[#FFD700] to-orange-500",
+                accent: "from-[#be185d] to-[#9d174d]",
               },
               {
                 icon: "👑",
                 title: "ELITE NETWORK",
                 description:
                   "Connect with influential individuals and celebrities in the most sophisticated settings",
-                accent: "from-purple-600 to-blue-600",
+                accent: "from-[#9d174d] to-[#EC4899]",
               },
             ].map((feature, index) => (
               <div
@@ -788,8 +788,8 @@ export default function Home() {
       >
         <div className="max-w-8xl mx-auto px-8 lg:px-16">
           <div className="text-center mb-24">
-            <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/10 to-[#FFD700]/10 rounded-full px-8 py-4 mb-8 border border-white/5">
-              <div className="diamond-shape w-4 h-4 bg-[#FFD700]"></div>
+            <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/10 to-[#be185d]/10 rounded-full px-8 py-4 mb-8 border border-white/5">
+              <div className="diamond-shape w-4 h-4 bg-[#EC4899]"></div>
               <span className="font-montserrat-semibold text-white/60 text-sm tracking-widest">
                 EXCLUSIVE PREVIEW
               </span>
@@ -825,10 +825,10 @@ export default function Home() {
               },
             ].map((screen, index) => (
               <div key={index} className="group">
-                <div className="premium-glass rounded-3xl p-8 vip-hover exclusive-border overflow-hidden">
+                <div className="hidden lg:block premium-glass rounded-3xl p-8 vip-hover exclusive-border overflow-hidden">
                   <div className="relative">
                     <div className="absolute top-4 right-4 z-10">
-                      <span className="bg-gradient-to-r from-[#EC4899] to-[#FFD700] text-black px-3 py-1 rounded-full font-montserrat-semibold text-xs">
+                      <span className="bg-gradient-to-r from-[#EC4899] to-[#be185d] text-white px-3 py-1 rounded-full font-montserrat-semibold text-xs">
                         {screen.badge}
                       </span>
                     </div>
@@ -860,7 +860,7 @@ export default function Home() {
         <div className="max-w-8xl mx-auto px-8 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="order-2 lg:order-1">
-              <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/10 to-[#FFD700]/10 rounded-full px-8 py-4 mb-8 border border-white/5">
+              <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/10 to-[#be185d]/10 rounded-full px-8 py-4 mb-8 border border-white/5">
                 <div className="diamond-shape w-4 h-4 bg-[#EC4899]"></div>
                 <span className="font-montserrat-semibold text-white/60 text-sm tracking-widest">
                   ULTRA EXCLUSIVE
@@ -897,8 +897,8 @@ export default function Home() {
                   },
                 ].map((item, index) => (
                   <div key={index} className="flex items-start space-x-6">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#EC4899] to-[#FFD700] flex items-center justify-center flex-shrink-0 mt-1">
-                      <div className="w-3 h-3 diamond-shape bg-black"></div>
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#EC4899] to-[#be185d] flex items-center justify-center flex-shrink-0 mt-1">
+                      <div className="w-3 h-3 diamond-shape bg-white"></div>
                     </div>
                     <div>
                       <h4 className="font-montserrat-semibold text-white text-lg mb-2 tracking-wide">
@@ -914,15 +914,15 @@ export default function Home() {
 
               <button
                 onClick={() => setIsPopupOpen(true)}
-                className="inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-[#EC4899] to-[#FFD700] text-black rounded-full font-montserrat-semibold text-lg transition-all duration-500 hover:scale-105 ultra-shadow vip-hover"
+                className="inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-[#EC4899] to-[#be185d] text-white rounded-full font-montserrat-semibold text-lg transition-all duration-500 hover:scale-105 ultra-shadow vip-hover"
               >
                 Apply for Membership
               </button>
             </div>
 
             <div className="flex justify-center order-1 lg:order-2">
-              <div className="relative max-w-[400px] floating-slow">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#EC4899]/30 to-[#FFD700]/30 rounded-3xl blur-3xl"></div>
+              <div className="hidden lg:block relative max-w-[400px] floating-slow">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#EC4899]/30 to-[#be185d]/30 rounded-3xl blur-3xl"></div>
                 <Image
                   src="/images/main.png"
                   alt="Elite Experience"
@@ -979,17 +979,17 @@ export default function Home() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-32 bg-gradient-to-br from-[#EC4899] via-purple-900 to-black relative overflow-hidden">
+      <section className="py-32 bg-gradient-to-br from-[#EC4899] via-[#be185d] to-black relative overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-[#FFD700]/20 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#EC4899]/30 rounded-full blur-3xl"></div>
-          <div className="absolute center w-96 h-96 bg-purple-600/20 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-96 h-96 bg-[#EC4899]/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#be185d]/30 rounded-full blur-3xl"></div>
+          <div className="absolute center w-96 h-96 bg-[#9d174d]/20 rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative z-10 max-w-6xl mx-auto px-8 lg:px-16 text-center">
           <div className="inline-flex items-center space-x-3 bg-black/20 rounded-full px-8 py-4 mb-12 border border-white/20">
-            <div className="diamond-shape w-4 h-4 bg-[#FFD700]"></div>
+            <div className="diamond-shape w-4 h-4 bg-white"></div>
             <span className="font-montserrat-semibold text-white/80 text-sm tracking-widest">
               FINAL INVITATION
             </span>
@@ -1007,7 +1007,7 @@ export default function Home() {
           <div className="text-center mb-16">
             <div className="inline-flex items-center space-x-8 bg-black/30 rounded-full px-12 py-6 border border-white/20">
               <div className="text-center">
-                <div className="font-neue-plak text-3xl text-[#FFD700] ultra-exclusive-text">
+                <div className="font-neue-plak text-3xl text-white ultra-exclusive-text">
                   {waitlistCount.toLocaleString()}
                 </div>
                 <div className="font-montserrat-light text-white/60 text-xs tracking-widest">
@@ -1032,7 +1032,7 @@ export default function Home() {
               className="inline-flex items-center justify-center px-16 py-8 bg-white text-black rounded-full font-montserrat-semibold text-xl transition-all duration-500 hover:scale-105 ultra-shadow vip-hover group"
             >
               <span className="relative z-10">Request Elite Access</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] to-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-200 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </button>
 
             <p className="font-montserrat-light text-white/60 text-sm max-w-2xl mx-auto leading-relaxed">
