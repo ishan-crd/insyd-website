@@ -55,13 +55,14 @@ export default function Home() {
 
       if (error) {
         console.error("Error getting count:", error);
-        return 374; // Fallback number
+        return 347;
       }
 
-      return count || 374;
+      const actualCount = count || 0;
+      return 347 + actualCount;
     } catch (error: unknown) {
       console.error("Error getting waitlist count:", error);
-      return 374; // Fallback number
+      return 347;
     }
   };
 
@@ -93,8 +94,6 @@ export default function Home() {
     };
 
     loadWaitlistCount();
-
-    // Update count every 30 seconds
     const interval = setInterval(loadWaitlistCount, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -143,11 +142,9 @@ export default function Home() {
       setEmail("");
       setPhone("");
 
-      // Refresh waitlist count
       const newCount = await getWaitlistCount();
       setWaitlistCount(newCount);
 
-      // Close popup after 2 seconds
       setTimeout(() => {
         setIsPopupOpen(false);
         setSubmitSuccess(false);
@@ -172,7 +169,6 @@ export default function Home() {
         return;
       }
 
-      // Create CSV content
       const csvContent = [
         ["Email", "Phone", "Date Joined"],
         ...data.map((entry) => [
@@ -184,7 +180,6 @@ export default function Home() {
         .map((row) => row.join(","))
         .join("\n");
 
-      // Download file
       const blob = new Blob([csvContent], { type: "text/csv" });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -203,39 +198,262 @@ export default function Home() {
 
   return (
     <>
+      <style jsx global>{`
+        @font-face {
+          font-family: "Neue-Plak-Extended-Black";
+          src: url("/fonts/Neue Plak Extended Black.woff") format("woff");
+          font-weight: 900;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: "Neue-Plak-Extended-Bold";
+          src: url("/fonts/Neue Plak Extended Bold.woff") format("woff");
+          font-weight: 700;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: "Montserrat-Light";
+          src: url("/fonts/Montserrat-Light.ttf") format("truetype");
+          font-weight: 300;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: "Montserrat-Medium";
+          src: url("/fonts/Montserrat-Medium.ttf") format("truetype");
+          font-weight: 500;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        @font-face {
+          font-family: "Montserrat-SemiBold";
+          src: url("/fonts/Montserrat-SemiBold.ttf") format("truetype");
+          font-weight: 600;
+          font-style: normal;
+          font-display: swap;
+        }
+
+        .font-neue-plak {
+          font-family: "Neue-Plak-Extended-Black", serif;
+          font-weight: 900;
+          letter-spacing: -0.03em;
+        }
+
+        .font-neue-plak-bold {
+          font-family: "Neue-Plak-Extended-Bold", serif;
+          font-weight: 700;
+          letter-spacing: -0.02em;
+        }
+
+        .font-montserrat-light {
+          font-family: "Montserrat-Light", sans-serif;
+          font-weight: 300;
+          letter-spacing: 0.02em;
+        }
+
+        .font-montserrat-medium {
+          font-family: "Montserrat-Medium", sans-serif;
+          font-weight: 500;
+          letter-spacing: 0.01em;
+        }
+
+        .font-montserrat-semibold {
+          font-family: "Montserrat-SemiBold", sans-serif;
+          font-weight: 600;
+          letter-spacing: 0.005em;
+        }
+
+        body {
+          background: #000000;
+          overflow-x: hidden;
+        }
+
+        .luxury-gradient {
+          background: linear-gradient(
+            135deg,
+            rgba(0, 0, 0, 0.95) 0%,
+            rgba(12, 12, 12, 0.9) 25%,
+            rgba(18, 18, 18, 0.85) 50%,
+            rgba(12, 12, 12, 0.9) 75%,
+            rgba(0, 0, 0, 0.95) 100%
+          );
+        }
+
+        .premium-glass {
+          background: rgba(255, 255, 255, 0.01);
+          backdrop-filter: blur(40px);
+          border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .gold-accent {
+          background: linear-gradient(
+            135deg,
+            #ffd700 0%,
+            #ffa500 50%,
+            #ff8c00 100%
+          );
+        }
+
+        .pink-glow {
+          box-shadow: 0 0 50px rgba(236, 72, 153, 0.4),
+            0 0 100px rgba(236, 72, 153, 0.2),
+            inset 0 0 50px rgba(236, 72, 153, 0.1);
+        }
+
+        .ultra-shadow {
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8),
+            0 0 100px rgba(236, 72, 153, 0.2);
+        }
+
+        .text-shimmer {
+          background: linear-gradient(
+            135deg,
+            #ffffff 25%,
+            #ec4899 50%,
+            #ffffff 75%
+          );
+          background-size: 200% 200%;
+          animation: shimmer 3s ease-in-out infinite;
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes shimmer {
+          0%,
+          100% {
+            background-position: 0% 0%;
+          }
+          50% {
+            background-position: 100% 100%;
+          }
+        }
+
+        .floating-slow {
+          animation: floating-slow 8s ease-in-out infinite;
+        }
+
+        @keyframes floating-slow {
+          0%,
+          100% {
+            transform: translateY(0px) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-30px) rotate(2deg);
+          }
+        }
+
+        .exclusive-border {
+          border: 2px solid transparent;
+          background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9))
+              padding-box,
+            linear-gradient(135deg, #ec4899, #ffd700, #ec4899) border-box;
+        }
+
+        .vip-hover {
+          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .vip-hover:hover {
+          transform: translateY(-15px) scale(1.02);
+          filter: brightness(1.1);
+        }
+
+        .luxury-grid {
+          background-image: radial-gradient(
+              circle at 25% 25%,
+              rgba(236, 72, 153, 0.1) 0%,
+              transparent 50%
+            ),
+            radial-gradient(
+              circle at 75% 75%,
+              rgba(255, 215, 0, 0.05) 0%,
+              transparent 50%
+            ),
+            linear-gradient(
+              0deg,
+              transparent 24%,
+              rgba(255, 255, 255, 0.005) 25%,
+              rgba(255, 255, 255, 0.005) 26%,
+              transparent 27%,
+              transparent 74%,
+              rgba(255, 255, 255, 0.005) 75%,
+              rgba(255, 255, 255, 0.005) 76%,
+              transparent 77%,
+              transparent
+            );
+          background-size: 80px 80px;
+        }
+
+        .status-indicator {
+          position: relative;
+        }
+
+        .status-indicator::before {
+          content: "";
+          position: absolute;
+          top: -2px;
+          left: -2px;
+          right: -2px;
+          bottom: -2px;
+          background: linear-gradient(45deg, #ec4899, #ffd700, #ec4899);
+          border-radius: inherit;
+          z-index: -1;
+          opacity: 0.7;
+          filter: blur(10px);
+        }
+
+        .diamond-shape {
+          clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .ultra-exclusive-text {
+          text-shadow: 0 0 10px rgba(236, 72, 153, 0.8),
+            0 0 20px rgba(236, 72, 153, 0.6), 0 0 40px rgba(236, 72, 153, 0.4);
+        }
+      `}</style>
+
       {/* Admin Login Popup */}
       {showAdminLogin && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full mx-4">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
-              Admin Access
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
+          <div className="premium-glass rounded-3xl p-10 max-w-sm w-full mx-4 exclusive-border ultra-shadow">
+            <h3 className="font-neue-plak text-3xl text-white mb-8 text-center ultra-exclusive-text">
+              EXCLUSIVE ACCESS
             </h3>
             <div>
               <input
                 type="password"
-                placeholder="Enter admin password"
+                placeholder="Enter administrative code"
                 value={adminPassword}
                 onChange={(e) => setAdminPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent mb-4"
+                className="w-full px-6 py-5 bg-black/30 border border-white/10 rounded-2xl focus:ring-2 focus:ring-[#EC4899] focus:border-transparent mb-8 text-white placeholder-white/40 font-montserrat-light text-sm"
                 autoFocus
-                onKeyPress={(e) => e.key === "Enter" && handleAdminLogin(e)}
+                onKeyPress={(e: React.KeyboardEvent) =>
+                  e.key === "Enter" && handleAdminLogin(e)
+                }
               />
-              <div className="flex gap-3">
+              <div className="flex gap-4">
                 <button
                   type="button"
                   onClick={() => {
                     setShowAdminLogin(false);
                     setAdminPassword("");
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                  className="flex-1 px-6 py-4 border border-white/20 text-white/60 rounded-2xl hover:bg-white/5 font-montserrat-medium text-sm transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleAdminLogin}
-                  className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                  className="flex-1 px-6 py-4 bg-[#EC4899] text-white rounded-2xl hover:bg-[#EC4899]/90 font-montserrat-semibold text-sm transition-all pink-glow"
                 >
-                  Login
+                  Access
                 </button>
               </div>
             </div>
@@ -245,40 +463,32 @@ export default function Home() {
 
       {/* Waitlist Popup */}
       {isPopupOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full mx-4 transform transition-all">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  ></path>
-                </svg>
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
+          <div className="premium-glass rounded-3xl p-10 max-w-lg w-full mx-4 exclusive-border ultra-shadow">
+            <div className="text-center mb-10">
+              <div className="w-24 h-24 bg-gradient-to-br from-[#EC4899] to-[#FFD700] rounded-full flex items-center justify-center mx-auto mb-8 pink-glow status-indicator">
+                <div className="w-8 h-8 diamond-shape bg-white"></div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                Join the Waitlist
+              <h3 className="font-neue-plak text-4xl text-white mb-4 ultra-exclusive-text">
+                EXCLUSIVE INVITATION
               </h3>
-              <p className="text-gray-600 mb-2">
-                Be the first to experience the future of nightlife!
+              <p className="font-montserrat-light text-white/70 mb-4 text-lg leading-relaxed">
+                Join the most sophisticated nightlife platform reserved for the
+                elite
               </p>
-              <p className="text-sm text-purple-600 font-semibold">
-                🔥 {waitlistCount.toLocaleString()} people waiting
-              </p>
+              <div className="inline-flex items-center space-x-2 bg-white/5 rounded-full px-6 py-3 mb-2">
+                <div className="w-2 h-2 bg-[#EC4899] rounded-full animate-pulse"></div>
+                <p className="font-montserrat-semibold text-[#EC4899] text-sm tracking-wider">
+                  {waitlistCount.toLocaleString()} MEMBERS AWAITING ACCESS
+                </p>
+              </div>
             </div>
 
             {submitSuccess ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="text-center py-12">
+                <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-green-500/30">
                   <svg
-                    className="w-8 h-8 text-green-600"
+                    className="w-12 h-12 text-green-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -291,58 +501,67 @@ export default function Home() {
                     ></path>
                   </svg>
                 </div>
-                <h4 className="text-xl font-bold text-gray-900 mb-2">
-                  You&apos;re In! 🎉
+                <h4 className="font-neue-plak text-3xl text-white mb-4">
+                  WELCOME TO THE ELITE
                 </h4>
-                <p className="text-gray-600">
-                  We&apos;ll notify you as soon as we launch.
+                <p className="font-montserrat-light text-white/70 text-lg">
+                  Your exclusive access is being prepared
                 </p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-8">
                 {error && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                  <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-6 py-4 rounded-2xl font-montserrat-light">
                     {error}
                   </div>
                 )}
                 <div>
+                  <label className="block text-white/60 font-montserrat-medium text-sm mb-2 tracking-wider">
+                    PRIVATE EMAIL
+                  </label>
                   <input
                     type="email"
-                    placeholder="Enter your email*"
+                    placeholder="your.email@domain.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-6 py-5 bg-black/30 border border-white/10 rounded-2xl focus:ring-2 focus:ring-[#EC4899] focus:border-transparent text-white placeholder-white/40 font-montserrat-light text-lg"
                     required
                   />
                 </div>
                 <div>
+                  <label className="block text-white/60 font-montserrat-medium text-sm mb-2 tracking-wider">
+                    CONTACT NUMBER (OPTIONAL)
+                  </label>
                   <input
                     type="tel"
-                    placeholder="Enter your phone number (optional)"
+                    placeholder="+1 (555) 000-0000"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-6 py-5 bg-black/30 border border-white/10 rounded-2xl focus:ring-2 focus:ring-[#EC4899] focus:border-transparent text-white placeholder-white/40 font-montserrat-light text-lg"
                   />
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-4">
                   <button
                     type="button"
                     onClick={() => {
                       setIsPopupOpen(false);
                       setError("");
                     }}
-                    className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex-1 px-8 py-5 border border-white/20 text-white/60 rounded-2xl hover:bg-white/5 font-montserrat-medium transition-all"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleWaitlistSubmit}
                     disabled={isSubmitting || !email}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="flex-1 px-8 py-5 bg-gradient-to-r from-[#EC4899] to-[#FFD700] text-black rounded-2xl hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed font-montserrat-semibold transition-all ultra-shadow"
                   >
-                    {isSubmitting ? "Joining..." : "Join Waitlist"}
+                    {isSubmitting ? "Processing..." : "Request Invitation"}
                   </button>
                 </div>
+                <p className="text-center text-white/40 font-montserrat-light text-sm">
+                  Membership is by invitation only • Strictly confidential
+                </p>
               </div>
             )}
           </div>
@@ -351,410 +570,365 @@ export default function Home() {
 
       {/* Admin Export Controls */}
       {isAdmin && (
-        <div className="fixed bottom-4 right-4 flex flex-col gap-2 z-40">
+        <div className="fixed bottom-8 right-8 flex flex-col gap-3 z-40">
           <button
             onClick={handleExportToExcel}
-            className="bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-green-700 transition-colors text-sm flex items-center gap-2"
+            className="bg-green-600 text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-green-700 transition-colors font-montserrat-semibold text-sm flex items-center gap-2 pink-glow"
           >
-            📊 Export Waitlist
+            📊 Export Data
           </button>
           <button
             onClick={() => setIsAdmin(false)}
-            className="bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-red-700 transition-colors text-sm"
+            className="bg-red-600 text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-red-700 transition-colors font-montserrat-semibold text-sm"
           >
-            🚪 Logout Admin
+            🚪 Exit
           </button>
         </div>
       )}
 
       {/* Hero Section */}
-      <div className="relative w-full min-h-screen bg-[url('/images/bgimage.png')] bg-cover bg-center text-white overflow-hidden">
-        <div className="flex flex-col sm:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <Image
-            src="/images/insyd-logo.png"
-            alt="Insyd Logo"
-            width={80}
-            height={32}
-            className="sm:w-[100px] sm:h-[40px]"
-          />
-          <nav className="mt-4 sm:mt-0 space-x-4 sm:space-x-6 text-sm sm:text-base font-medium">
-            <a href="#features" className="hover:underline">
-              Features
-            </a>
-            <a href="#app" className="hover:underline">
-              App Preview
-            </a>
-            <a href="#about" className="hover:underline">
-              About
-            </a>
-          </nav>
-        </div>
+      <div className="relative min-h-screen luxury-gradient text-white overflow-hidden luxury-grid">
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-10 w-4 h-4 bg-[#EC4899] rounded-full opacity-60 floating-slow"></div>
+        <div
+          className="absolute top-40 right-20 w-6 h-6 bg-[#FFD700] rounded-full opacity-40 floating-slow"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div
+          className="absolute bottom-40 left-20 w-3 h-3 bg-[#EC4899] rounded-full opacity-50 floating-slow"
+          style={{ animationDelay: "4s" }}
+        ></div>
 
-        <div className="flex flex-col lg:flex-row items-center justify-center min-h-[calc(100vh-120px)] px-4 sm:px-6 lg:px-8 gap-8 lg:gap-10 py-8">
-          <div className="w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[380px] order-2 lg:order-1">
+        {/* Navigation */}
+        <nav className="relative z-10 flex flex-col sm:flex-row justify-between items-center px-8 lg:px-16 py-8 sm:py-12">
+          <div className="mb-8 sm:mb-0">
             <Image
-              src="/images/insyd-preview.png"
-              alt="Phone Preview"
-              width={380}
-              height={700}
-              className="w-full h-auto rounded-xl shadow-2xl"
+              src="/images/insyd-logo.png"
+              alt="Insyd"
+              width={150}
+              height={60}
+              className="h-16 w-auto filter brightness-110"
             />
           </div>
+          <div className="flex items-center space-x-12">
+            <div className="hidden lg:flex space-x-8 font-montserrat-medium text-white/70 text-sm tracking-widest">
+              <a
+                href="#experience"
+                className="hover:text-[#EC4899] transition-colors duration-300"
+              >
+                EXPERIENCE
+              </a>
+              <a
+                href="#preview"
+                className="hover:text-[#EC4899] transition-colors duration-300"
+              >
+                PREVIEW
+              </a>
+              <a
+                href="#exclusivity"
+                className="hover:text-[#EC4899] transition-colors duration-300"
+              >
+                EXCLUSIVITY
+              </a>
+            </div>
+            <div className="flex items-center space-x-2 bg-white/5 rounded-full px-4 py-2 border border-white/10">
+              <div className="w-2 h-2 bg-[#EC4899] rounded-full animate-pulse"></div>
+              <span className="font-montserrat-semibold text-[#EC4899] text-xs tracking-wider">
+                INVITE ONLY
+              </span>
+            </div>
+          </div>
+        </nav>
 
-          <div className="text-center lg:text-left max-w-lg order-1 lg:order-2">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4">
-              Coming Soon
+        {/* Hero Content */}
+        <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center min-h-[calc(100vh-200px)] px-8 lg:px-16 gap-16 lg:gap-24">
+          <div className="w-full max-w-[380px] lg:max-w-[450px] order-2 lg:order-1 floating-slow">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#EC4899]/20 to-[#FFD700]/20 rounded-3xl blur-3xl"></div>
+              <Image
+                src="/images/insyd-preview.png"
+                alt="Exclusive Preview"
+                width={450}
+                height={900}
+                className="relative w-full h-auto drop-shadow-2xl"
+              />
+            </div>
+          </div>
+
+          <div className="text-center lg:text-left max-w-3xl order-1 lg:order-2">
+            <div className="mb-8">
+              <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/20 to-[#FFD700]/20 rounded-full px-6 py-3 mb-8 border border-white/10">
+                <div className="diamond-shape w-3 h-3 bg-[#EC4899]"></div>
+                <span className="font-montserrat-semibold text-white/80 text-sm tracking-widest">
+                  ULTRA EXCLUSIVE PREVIEW
+                </span>
+              </div>
+            </div>
+
+            <h1 className="font-neue-plak text-6xl sm:text-7xl lg:text-8xl xl:text-9xl mb-8 leading-none">
+              <span className="block text-white">THE</span>
+              <span className="block text-shimmer">ELITE</span>
+              <span className="block text-white/80">EXPERIENCE</span>
             </h1>
-            <p className="text-lg sm:text-xl mb-6">Nightlife. Reimagined.</p>
-            <div className="mb-6">
-              <p className="text-sm sm:text-base text-purple-200 mb-4">
-                🔥 {waitlistCount.toLocaleString()} people already waiting
-              </p>
+
+            <p className="font-montserrat-light text-xl sm:text-2xl lg:text-3xl mb-12 text-white/70 leading-relaxed max-w-2xl">
+              Where sophistication meets nightlife. An exclusive platform
+              reserved for those who demand the extraordinary.
+            </p>
+
+            <div className="space-y-8">
+              <div className="flex items-center justify-center lg:justify-start space-x-6">
+                <div className="text-center">
+                  <div className="font-neue-plak text-3xl text-[#EC4899] ultra-exclusive-text">
+                    {waitlistCount.toLocaleString()}
+                  </div>
+                  <div className="font-montserrat-light text-white/50 text-xs tracking-widest">
+                    ELITE MEMBERS
+                  </div>
+                </div>
+                <div className="w-px h-12 bg-white/20"></div>
+                <div className="text-center">
+                  <div className="font-neue-plak text-3xl text-[#FFD700]">
+                    $∞
+                  </div>
+                  <div className="font-montserrat-light text-white/50 text-xs tracking-widest">
+                    PRICELESS ACCESS
+                  </div>
+                </div>
+              </div>
+
               <button
                 onClick={() => setIsPopupOpen(true)}
-                className="bg-purple-600 hover:bg-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base"
+                className="group relative inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-[#EC4899] to-[#FFD700] text-black rounded-full font-montserrat-semibold text-lg transition-all duration-500 hover:scale-105 ultra-shadow vip-hover"
               >
-                Join the Waitlist
+                <span className="relative z-10">Request Exclusive Access</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] to-[#EC4899] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </button>
+
+              <p className="font-montserrat-light text-white/40 text-sm max-w-md leading-relaxed">
+                Membership is strictly by invitation. Applications are reviewed
+                by our elite concierge team.
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Features Section */}
-      <section id="features" className="py-12 sm:py-16 lg:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="flex flex-col sm:flex-row text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 justify-center items-center gap-2 sm:gap-3">
-              Why Choose
-              <span>
-                <Image
-                  src="/images/insyd-blacklogo.png"
-                  alt="Insyd Logo"
-                  width={100}
-                  height={60}
-                  className="sm:w-[120px] sm:h-[80px]"
-                />
+      {/* Experience Section */}
+      <section id="experience" className="py-32 bg-black luxury-grid">
+        <div className="max-w-8xl mx-auto px-8 lg:px-16">
+          <div className="text-center mb-24">
+            <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/10 to-[#FFD700]/10 rounded-full px-8 py-4 mb-8 border border-white/5">
+              <div className="diamond-shape w-4 h-4 bg-[#EC4899]"></div>
+              <span className="font-montserrat-semibold text-white/60 text-sm tracking-widest">
+                CURATED EXPERIENCES
               </span>
-              ?
+            </div>
+            <h2 className="font-neue-plak text-5xl sm:text-6xl lg:text-7xl text-white mb-8 ultra-exclusive-text">
+              BEYOND ORDINARY
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-              Experience nightlife like never before with our comprehensive
-              platform designed for the modern party-goer.
+            <p className="font-montserrat-light text-xl text-white/60 max-w-4xl mx-auto leading-relaxed">
+              Every detail crafted for the discerning few who appreciate the
+              finest things in life
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
             {[
               {
-                icon: (
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    ></path>
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    ></path>
-                  </svg>
-                ),
-                gradient: "from-purple-600 to-pink-600",
-                title: "Discover Nearby",
+                icon: "💎",
+                title: "DIAMOND TIER VENUES",
                 description:
-                  "Find the hottest clubs and events in your area with our location-based recommendations.",
+                  "Access to the world's most exclusive establishments, handpicked by our elite curation team",
+                accent: "from-[#EC4899] to-purple-600",
               },
               {
-                icon: (
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
-                    ></path>
-                  </svg>
-                ),
-                gradient: "from-purple-500 to-blue-600",
-                title: "Easy Booking",
+                icon: "🥂",
+                title: "VIP CONCIERGE",
                 description:
-                  "Book tickets instantly with our seamless booking system. No more waiting in lines.",
+                  "Personal concierge service ensuring every aspect of your evening exceeds expectations",
+                accent: "from-[#FFD700] to-orange-500",
               },
               {
-                icon: (
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    ></path>
-                  </svg>
-                ),
-                gradient: "from-blue-500 to-teal-600",
-                title: "Group Booking",
+                icon: "👑",
+                title: "ELITE NETWORK",
                 description:
-                  "Plan perfect nights out with friends using our group booking and splitting features.",
-              },
-              {
-                icon: (
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
-                    ></path>
-                  </svg>
-                ),
-                gradient: "from-teal-500 to-green-600",
-                title: "Music Preferences",
-                description:
-                  "Filter clubs by music genre and vibe to find the perfect atmosphere for your night.",
-              },
-              {
-                icon: (
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path>
-                  </svg>
-                ),
-                gradient: "from-green-500 to-yellow-600",
-                title: "Real-time Updates",
-                description:
-                  "Get live updates on events, availability, and special offers from your favorite venues.",
-              },
-              {
-                icon: (
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                    ></path>
-                  </svg>
-                ),
-                gradient: "from-yellow-500 to-red-600",
-                title: "Secure Payments",
-                description:
-                  "Safe and secure payment processing with multiple payment options and fraud protection.",
+                  "Connect with influential individuals and celebrities in the most sophisticated settings",
+                accent: "from-purple-600 to-blue-600",
               },
             ].map((feature, index) => (
               <div
                 key={index}
-                className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-2"
+                className="premium-glass rounded-3xl p-10 vip-hover group exclusive-border"
               >
-                <div
-                  className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-6`}
-                >
-                  {feature.icon}
+                <div className="text-center">
+                  <div className="text-6xl mb-8 group-hover:scale-110 transition-transform duration-500">
+                    {feature.icon}
+                  </div>
+                  <h3 className="font-neue-plak-bold text-2xl text-white mb-6 group-hover:text-[#EC4899] transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="font-montserrat-light text-white/70 text-lg leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <div
+                    className={`w-full h-1 bg-gradient-to-r ${feature.accent} rounded-full mt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  ></div>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* App Preview Section */}
-      <section id="app" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              App <span className="text-purple-600">Preview</span>
+      {/* Preview Section */}
+      <section
+        id="preview"
+        className="py-32 bg-gradient-to-br from-gray-950 via-black to-gray-950"
+      >
+        <div className="max-w-8xl mx-auto px-8 lg:px-16">
+          <div className="text-center mb-24">
+            <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/10 to-[#FFD700]/10 rounded-full px-8 py-4 mb-8 border border-white/5">
+              <div className="diamond-shape w-4 h-4 bg-[#FFD700]"></div>
+              <span className="font-montserrat-semibold text-white/60 text-sm tracking-widest">
+                EXCLUSIVE PREVIEW
+              </span>
+            </div>
+            <h2 className="font-neue-plak text-5xl sm:text-6xl lg:text-7xl text-white mb-8">
+              SOPHISTICATION <span className="text-shimmer">REDEFINED</span>
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-              Take a look at the sleek interface and powerful features that make
-              Insyd the ultimate nightlife companion.
+            <p className="font-montserrat-light text-xl text-white/60 max-w-4xl mx-auto leading-relaxed">
+              A glimpse into the platform that will redefine how the elite
+              experience nightlife
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-12 lg:gap-16 max-w-7xl mx-auto">
             {[
               {
                 src: "/images/home.png",
-                title: "Home Screen",
-                description: "Discover clubs and events near you",
+                title: "ELITE DISCOVERY",
+                description: "Curated venues worthy of your standards",
+                badge: "EXCLUSIVE",
               },
               {
                 src: "/images/filter.png",
-                title: "Smart Filters",
-                description: "Filter by location, music, and price",
+                title: "PRECISION FILTERING",
+                description: "Find exactly what matches your taste",
+                badge: "PERSONALIZED",
               },
               {
                 src: "/images/ticket.png",
-                title: "Easy Booking",
-                description: "Book tickets with just a few taps",
+                title: "SEAMLESS BOOKING",
+                description: "Reserve your place among the elite",
+                badge: "INSTANT",
               },
             ].map((screen, index) => (
-              <div key={index} className="text-center group">
-                <div className="relative overflow-hidden rounded-2xl shadow-2xl group-hover:shadow-3xl transition-all duration-300 group-hover:-translate-y-2">
-                  <Image
-                    src={screen.src}
-                    alt={screen.title}
-                    width={300}
-                    height={600}
-                    className="w-full h-auto"
-                  />
+              <div key={index} className="group">
+                <div className="premium-glass rounded-3xl p-8 vip-hover exclusive-border overflow-hidden">
+                  <div className="relative">
+                    <div className="absolute top-4 right-4 z-10">
+                      <span className="bg-gradient-to-r from-[#EC4899] to-[#FFD700] text-black px-3 py-1 rounded-full font-montserrat-semibold text-xs">
+                        {screen.badge}
+                      </span>
+                    </div>
+                    <Image
+                      src={screen.src}
+                      alt={screen.title}
+                      width={300}
+                      height={600}
+                      className="w-full h-auto rounded-2xl group-hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mt-6">
-                  {screen.title}
-                </h3>
-                <p className="text-gray-600 mt-2">{screen.description}</p>
+                <div className="text-center mt-8">
+                  <h3 className="font-neue-plak-bold text-xl text-white mb-3 group-hover:text-[#EC4899] transition-colors">
+                    {screen.title}
+                  </h3>
+                  <p className="font-montserrat-light text-white/60 leading-relaxed">
+                    {screen.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Additional Features */}
-          <div className="mt-12 sm:mt-16 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      {/* Exclusivity Section */}
+      <section id="exclusivity" className="py-32 bg-black luxury-grid">
+        <div className="max-w-8xl mx-auto px-8 lg:px-16">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="order-2 lg:order-1">
-              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
-                Everything you need for the perfect night out
-              </h3>
-              <div className="space-y-4">
+              <div className="inline-flex items-center space-x-3 bg-gradient-to-r from-[#EC4899]/10 to-[#FFD700]/10 rounded-full px-8 py-4 mb-8 border border-white/5">
+                <div className="diamond-shape w-4 h-4 bg-[#EC4899]"></div>
+                <span className="font-montserrat-semibold text-white/60 text-sm tracking-widest">
+                  ULTRA EXCLUSIVE
+                </span>
+              </div>
+
+              <h2 className="font-neue-plak text-5xl sm:text-6xl lg:text-7xl text-white mb-8 leading-tight">
+                FOR THE <span className="text-shimmer">DISTINGUISHED</span> FEW
+              </h2>
+
+              <p className="font-montserrat-light text-xl text-white/70 mb-12 leading-relaxed">
+                INSYD represents the pinnacle of nightlife sophistication. Our
+                platform is meticulously designed for individuals who demand
+                nothing less than perfection in every aspect of their social
+                experiences.
+              </p>
+
+              <div className="space-y-8 mb-12">
                 {[
                   {
-                    title: "Real-time Availability",
+                    title: "INVITATION ONLY ACCESS",
                     description:
-                      "See live capacity and wait times for all venues",
+                      "Membership limited to verified high-net-worth individuals and celebrities",
                   },
                   {
-                    title: "Group Management",
+                    title: "PLATINUM CONCIERGE",
                     description:
-                      "Coordinate with friends and split costs effortlessly",
+                      "24/7 personal concierge ensuring every detail exceeds your expectations",
                   },
                   {
-                    title: "Exclusive Deals",
-                    description: "Access special offers and VIP experiences",
+                    title: "PRIVATE RESERVATIONS",
+                    description:
+                      "Exclusive access to private dining rooms and VIP sections worldwide",
                   },
                 ].map((item, index) => (
-                  <div key={index} className="flex items-start">
-                    <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center mt-1 mr-4 flex-shrink-0">
-                      <svg
-                        className="w-3 h-3 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="3"
-                          d="M5 13l4 4L19 7"
-                        ></path>
-                      </svg>
+                  <div key={index} className="flex items-start space-x-6">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#EC4899] to-[#FFD700] flex items-center justify-center flex-shrink-0 mt-1">
+                      <div className="w-3 h-3 diamond-shape bg-black"></div>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">
+                      <h4 className="font-montserrat-semibold text-white text-lg mb-2 tracking-wide">
                         {item.title}
                       </h4>
-                      <p className="text-gray-600">{item.description}</p>
+                      <p className="font-montserrat-light text-white/60 leading-relaxed">
+                        {item.description}
+                      </p>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="flex justify-center order-1 lg:order-2">
-              <div className="relative max-w-[300px] sm:max-w-[400px]">
-                <Image
-                  src="/images/insyd-preview.png"
-                  alt="App Features"
-                  width={400}
-                  height={800}
-                  className="w-full h-auto rounded-2xl"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* About Section */}
-      <section id="about" className="py-12 sm:py-16 lg:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <h2 className="flex flex-col sm:flex-row text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 items-center gap-2 sm:gap-3">
-                About
-                <span>
-                  <Image
-                    src="/images/insyd-blacklogo.png"
-                    alt="Insyd Logo"
-                    width={100}
-                    height={60}
-                    className="sm:w-[120px] sm:h-[80px]"
-                  />
-                </span>
-              </h2>
-              <p className="text-base sm:text-lg text-gray-600 mb-6 leading-relaxed">
-                Insyd is revolutionizing the nightlife experience by connecting
-                party-goers with the best venues, events, and experiences in
-                their city. Our platform makes it easier than ever to discover
-                new places, book tickets, and create unforgettable memories.
-              </p>
-              <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed">
-                Whether you&apos;re looking for an intimate cocktail bar, a
-                high-energy dance club, or an exclusive VIP experience, Insyd
-                has got you covered. Join thousands of users who are already
-                experiencing nightlife like never before.
-              </p>
               <button
                 onClick={() => setIsPopupOpen(true)}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base"
+                className="inline-flex items-center justify-center px-12 py-6 bg-gradient-to-r from-[#EC4899] to-[#FFD700] text-black rounded-full font-montserrat-semibold text-lg transition-all duration-500 hover:scale-105 ultra-shadow vip-hover"
               >
-                Get Early Access
+                Apply for Membership
               </button>
             </div>
+
             <div className="flex justify-center order-1 lg:order-2">
-              <div className="relative max-w-[280px] sm:max-w-[320px]">
+              <div className="relative max-w-[400px] floating-slow">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#EC4899]/30 to-[#FFD700]/30 rounded-3xl blur-3xl"></div>
                 <Image
                   src="/images/main.png"
-                  alt="About Insyd"
-                  width={320}
-                  height={640}
-                  className="w-full h-auto rounded-2xl shadow-2xl"
+                  alt="Elite Experience"
+                  width={400}
+                  height={800}
+                  className="relative w-full h-auto rounded-3xl ultra-shadow"
                 />
               </div>
             </div>
@@ -763,30 +937,39 @@ export default function Home() {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              Trusted by Party-Goers Everywhere
+      <section className="py-32 bg-gradient-to-br from-gray-950 via-black to-gray-950">
+        <div className="max-w-8xl mx-auto px-8 lg:px-16">
+          <div className="text-center mb-24">
+            <h2 className="font-neue-plak text-5xl sm:text-6xl lg:text-7xl text-white mb-8">
+              ELITE <span className="text-shimmer">STATISTICS</span>
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-              Join a growing community of nightlife enthusiasts who choose Insyd
-              for their night out experiences.
+            <p className="font-montserrat-light text-xl text-white/60 max-w-4xl mx-auto leading-relaxed">
+              Numbers that reflect our commitment to exclusivity and excellence
             </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {[
-              { number: "50K+", label: "Registered Users" },
-              { number: "200+", label: "Partner Venues" },
-              { number: "10K+", label: "Events Booked" },
-              { number: "25+", label: "Cities Covered" },
+              {
+                number: "$2.5M",
+                label: "AVERAGE MEMBER NET WORTH",
+                icon: "💰",
+              },
+              { number: "50+", label: "MICHELIN STAR PARTNERS", icon: "⭐" },
+              { number: "0.1%", label: "ACCEPTANCE RATE", icon: "🔐" },
+              { number: "24/7", label: "PLATINUM CONCIERGE", icon: "👔" },
             ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-purple-600 mb-2">
+              <div
+                key={index}
+                className="premium-glass rounded-3xl p-8 vip-hover group exclusive-border text-center"
+              >
+                <div className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-500">
+                  {stat.icon}
+                </div>
+                <div className="font-neue-plak text-4xl lg:text-5xl text-shimmer mb-4 group-hover:scale-105 transition-transform duration-500">
                   {stat.number}
                 </div>
-                <div className="text-sm sm:text-base text-gray-600 font-medium">
+                <div className="font-montserrat-medium text-white/60 text-sm tracking-widest leading-tight">
                   {stat.label}
                 </div>
               </div>
@@ -795,108 +978,166 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-purple-600 to-pink-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
-            Ready to Transform Your Nightlife?
-          </h2>
-          <p className="text-lg sm:text-xl text-white/90 mb-8 leading-relaxed px-4">
-            Join thousands of party-goers who are already experiencing the
-            future of nightlife. Be the first to know when we launch.
-          </p>
-          <div className="text-center mb-6">
-            <p className="text-white/80 text-sm sm:text-base mb-4">
-              🔥 {waitlistCount.toLocaleString()} people already waiting
-            </p>
+      {/* Final CTA Section */}
+      <section className="py-32 bg-gradient-to-br from-[#EC4899] via-purple-900 to-black relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-[#FFD700]/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#EC4899]/30 rounded-full blur-3xl"></div>
+          <div className="absolute center w-96 h-96 bg-purple-600/20 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto px-8 lg:px-16 text-center">
+          <div className="inline-flex items-center space-x-3 bg-black/20 rounded-full px-8 py-4 mb-12 border border-white/20">
+            <div className="diamond-shape w-4 h-4 bg-[#FFD700]"></div>
+            <span className="font-montserrat-semibold text-white/80 text-sm tracking-widest">
+              FINAL INVITATION
+            </span>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 sm:px-6 py-3 sm:py-4 rounded-full border border-white text-gray-900 placeholder-gray-500 bg-white focus:ring-2 focus:ring-white/50 text-sm sm:text-base"
-            />
+
+          <h2 className="font-neue-plak text-5xl sm:text-6xl lg:text-7xl text-white mb-8 ultra-exclusive-text leading-tight">
+            JOIN THE ELITE
+          </h2>
+
+          <p className="font-montserrat-light text-xl sm:text-2xl text-white/90 mb-16 leading-relaxed max-w-4xl mx-auto">
+            This is your exclusive invitation to join the most sophisticated
+            nightlife platform in the world. Membership is strictly limited.
+          </p>
+
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center space-x-8 bg-black/30 rounded-full px-12 py-6 border border-white/20">
+              <div className="text-center">
+                <div className="font-neue-plak text-3xl text-[#FFD700] ultra-exclusive-text">
+                  {waitlistCount.toLocaleString()}
+                </div>
+                <div className="font-montserrat-light text-white/60 text-xs tracking-widest">
+                  AWAITING ACCESS
+                </div>
+              </div>
+              <div className="w-px h-12 bg-white/30"></div>
+              <div className="text-center">
+                <div className="font-neue-plak text-3xl text-white">
+                  LIMITED
+                </div>
+                <div className="font-montserrat-light text-white/60 text-xs tracking-widest">
+                  AVAILABILITY
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-8">
             <button
               onClick={() => setIsPopupOpen(true)}
-              className="bg-white text-purple-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base whitespace-nowrap"
+              className="inline-flex items-center justify-center px-16 py-8 bg-white text-black rounded-full font-montserrat-semibold text-xl transition-all duration-500 hover:scale-105 ultra-shadow vip-hover group"
             >
-              Join Waitlist
+              <span className="relative z-10">Request Elite Access</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] to-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </button>
+
+            <p className="font-montserrat-light text-white/60 text-sm max-w-2xl mx-auto leading-relaxed">
+              Applications undergo rigorous review by our executive committee.
+              Only the most distinguished applicants receive approval.
+            </p>
           </div>
-          <p className="text-white/70 text-xs sm:text-sm mt-4">
-            No spam, just exclusive updates and early access.
-          </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="sm:col-span-2">
-              <div className="text-2xl font-bold mb-4">
-                <span className="text-purple-400">insyd</span>
+      <footer className="bg-black text-white py-24 border-t border-white/5">
+        <div className="max-w-8xl mx-auto px-8 lg:px-16">
+          <div className="grid lg:grid-cols-4 gap-16">
+            <div className="lg:col-span-2">
+              <div className="mb-12">
+                <Image
+                  src="/images/insyd-logo.png"
+                  alt="Insyd"
+                  width={180}
+                  height={72}
+                  className="h-20 w-auto filter brightness-110"
+                />
               </div>
-              <p className="text-gray-400 mb-6 max-w-md text-sm sm:text-base">
-                Revolutionizing nightlife experiences one venue at a time.
-                Discover, book, and enjoy the best clubs in your city.
+              <p className="text-white/60 mb-12 max-w-lg font-montserrat-light text-lg leading-relaxed">
+                The world's most exclusive nightlife platform, reserved for
+                individuals who demand the extraordinary in every aspect of
+                their social experiences.
               </p>
-              <div className="flex space-x-4">
-                {["f", "t", "i"].map((social, index) => (
+              <div className="flex space-x-6">
+                {[
+                  { icon: "f", label: "Facebook", bg: "hover:bg-blue-600" },
+                  { icon: "t", label: "Twitter", bg: "hover:bg-blue-400" },
+                  { icon: "i", label: "Instagram", bg: "hover:bg-pink-600" },
+                ].map((social, index) => (
                   <div
                     key={index}
-                    className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-purple-600 transition-colors cursor-pointer"
+                    className={`w-14 h-14 bg-white/5 rounded-full flex items-center justify-center ${social.bg} transition-all duration-300 cursor-pointer group border border-white/10`}
                   >
-                    <span className="text-sm">{social}</span>
+                    <span className="font-montserrat-semibold text-lg group-hover:text-white text-white/70">
+                      {social.icon}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-4">Product</h3>
-              <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
-                {["Features", "Pricing", "Security", "Updates"].map(
-                  (item, index) => (
-                    <li key={index}>
-                      <a
-                        href="#"
-                        className="hover:text-purple-400 transition-colors"
-                      >
-                        {item}
-                      </a>
-                    </li>
-                  )
-                )}
+              <h3 className="font-neue-plak-bold text-xl text-white mb-8 tracking-wider">
+                SERVICES
+              </h3>
+              <ul className="space-y-4 text-white/60 font-montserrat-light">
+                {[
+                  "Elite Venues",
+                  "VIP Concierge",
+                  "Private Events",
+                  "Platinum Membership",
+                ].map((item, index) => (
+                  <li key={index}>
+                    <a
+                      href="#"
+                      className="hover:text-[#EC4899] transition-colors duration-300 block py-1"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
-                {["About", "Careers", "Contact", "Privacy"].map(
-                  (item, index) => (
-                    <li key={index}>
-                      <a
-                        href="#"
-                        className="hover:text-purple-400 transition-colors"
-                      >
-                        {item}
-                      </a>
-                    </li>
-                  )
-                )}
+              <h3 className="font-neue-plak-bold text-xl text-white mb-8 tracking-wider">
+                COMPANY
+              </h3>
+              <ul className="space-y-4 text-white/60 font-montserrat-light">
+                {[
+                  "About Insyd",
+                  "Executive Team",
+                  "Press Inquiries",
+                  "Legal",
+                ].map((item, index) => (
+                  <li key={index}>
+                    <a
+                      href="#"
+                      className="hover:text-[#EC4899] transition-colors duration-300 block py-1"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-            <p className="text-gray-400 text-sm">
-              © 2025 Insyd. All rights reserved.
+          <div className="border-t border-white/10 mt-20 pt-12 flex flex-col lg:flex-row justify-between items-center text-center lg:text-left">
+            <p className="text-white/60 font-montserrat-light tracking-wider">
+              © 2025 INSYD. ALL RIGHTS RESERVED. EXCLUSIVELY CRAFTED FOR THE
+              ELITE.
             </p>
-            <p className="text-gray-400 text-sm mt-4 md:mt-0">
-              Made with ❤️ for the nightlife community
-            </p>
+            <div className="flex items-center space-x-2 mt-6 lg:mt-0">
+              <div className="diamond-shape w-3 h-3 bg-[#EC4899]"></div>
+              <p className="text-white/60 font-montserrat-light text-sm tracking-wider">
+                MEMBERSHIP BY INVITATION ONLY
+              </p>
+            </div>
           </div>
         </div>
       </footer>
