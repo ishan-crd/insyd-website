@@ -739,7 +739,7 @@ export default function Home() {
                 icon: "💎",
                 title: "DIAMOND TIER VENUES",
                 description:
-                  "Access to the world's most exclusive establishments, handpicked by our elite curation team",
+                  "                Access to the world&apos;s most exclusive establishments, handpicked by our elite curation team",
                 accent: "from-[#EC4899] to-[#be185d]",
               },
               {
@@ -1057,8 +1057,8 @@ export default function Home() {
                   className="h-20 w-auto filter brightness-110"
                 />
               </div>
-              <p className="text-white/60 mb-12 max-w-lg font-montserrat-light text-lg leading-relaxed">
-                The world's most exclusive nightlife platform, reserved for
+              <p className="font-montserrat-light text-white/60 mb-12 max-w-lg font-montserrat-light text-lg leading-relaxed">
+                The world&apos;s most exclusive nightlife platform, reserved for
                 individuals who demand the extraordinary in every aspect of
                 their social experiences.
               </p>
